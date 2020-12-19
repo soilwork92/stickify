@@ -2,12 +2,12 @@
  * Sticky Header Plugin
  *
  *
- *
  * Options:
  *	- position (string)
  *  - animation (string)
- *  - direction (string)
+ *  - animationDuration (numeric)
  *  - reverse (boolean) (only for top and bottom)
+ *  - width (string)
  *
  */
 
@@ -21,8 +21,10 @@
         var defaultOptions = {
             position: 'top',
             animation: 'fade',
-            direction: '',
-            reverse: true
+            animationDuration: '0.4',
+            reverse: true,  // TODO: Add reverse and sticky options
+            sticky: true,
+            width: '100%'
         };
 
         var opts = $.extend({}, defaultOptions, options);
@@ -58,20 +60,20 @@
                 // $selector.removeClass('nav-down').addClass('nav-up');
                 $selector
                     .css('position', 'fixed')
-                    .css('top', '0')
-                    .css('transition', 'top 0.4s ease-in-out')
-                    .css('top', '-1000px')
-                    .css('width', '100%')
+                    .css(opts.position, '0')
+                    .css('transition', opts.position + ' ' + opts.animationDuration + 's ease-in-out')
+                    .css(opts.position, '-1000px')
+                    .css('width', opts.width)
 
             } else {
                 // Scroll Up
                 if(st + $(window).height() < $(document).height()) {
                     // $selector.removeClass('nav-up').addClass('nav-down');
                     $selector
-                        .css('top', '-1000px')
-                        .css('transition', 'top 0.4s ease-in-out')
-                        .css('top', '0')
-                        .css('width', '100%')
+                        .css(opts.position, '-1000px')
+                        .css('transition', opts.position + ' ' + opts.animationDuration + 's ease-in-out')
+                        .css(opts.position, '0')
+                        .css('width', opts.width)
                 }
             }
 

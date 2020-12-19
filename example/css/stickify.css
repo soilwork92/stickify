@@ -30,15 +30,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    width: 100%;
-    z-index: 2;
-    transition: top 0.4s ease-in-out;
-}
-
-.footer {
-    position: fixed;
-    transition: top 0.4s ease-in-out;
 }
 
 .test {
@@ -94,12 +85,4 @@ body {
 
 .footer p {
     font-style: italic;
-}
-
-.nav-up {
-    top: -1000px;
-}
-
-.nav-down {
-    top: 0;
 }
