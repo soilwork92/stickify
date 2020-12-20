@@ -8,6 +8,7 @@
  *  - animationDuration (numeric)
  *  - reverse (boolean) (only for top and bottom)
  *  - width (string)
+ *  - z-index (numeric)
  *
  */
 
@@ -22,9 +23,9 @@
             position: 'top',
             animation: 'fade',
             animationDuration: '0.4',
-            reverse: true,  // TODO: Add reverse and sticky options
-            sticky: true,
-            width: '100%'
+            reverse: false,
+            width: '100%',
+            zIndex: '9999'
         };
 
         var opts = $.extend({}, defaultOptions, options);
@@ -40,11 +41,25 @@
         });
 
         setInterval(function() {
-            if (didScroll) {
+            if (didScroll && opts.reverse === true) {
                 hasScrolled();
                 didScroll = false;
+            } else {
+                fixedHeader();
             }
         }, 250);
+
+        function fixedHeader() {
+
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 100) $selector
+                .css('position', 'fixed')
+                .css(opts.position, '0')
+                .css('width', opts.width)
+                .css('z-index', opts.zIndex)
+
+        }
 
         function hasScrolled() {
             var st = $(this).scrollTop();
@@ -64,6 +79,7 @@
                     .css('transition', opts.position + ' ' + opts.animationDuration + 's ease-in-out')
                     .css(opts.position, '-1000px')
                     .css('width', opts.width)
+                    .css('z-index', opts.zIndex)
 
             } else {
                 // Scroll Up
@@ -74,6 +90,7 @@
                         .css('transition', opts.position + ' ' + opts.animationDuration + 's ease-in-out')
                         .css(opts.position, '0')
                         .css('width', opts.width)
+                        .css('z-index', opts.zIndex)
                 }
             }
 
