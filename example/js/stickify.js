@@ -1,17 +1,21 @@
 /**
  * Sticky Header Plugin
  *
+ * Description: Simple plugin for fixing elements on scroll
+ *
+ * Author: Angel Petkov
+ * Author Website: https://quiztion.bg/
+ *
  *
  * Options:
- *	- position (string)
- *  - animation (string)
- *  - animationDuration (numeric)
- *  - reverse (boolean) (only for top and bottom)
- *  - width (string)
- *  - z-index (numeric)
+ *	- position (string): 'top', 'right', 'bottom', 'left'
+ *  - animation (string):
+ *  - animationDuration (numeric): in seconds - '0.4', '0.8', '1' and etc.
+ *  - reverse (boolean): true to hide element on scroll down and show in scroll up, false to fix the element
+ *  - width (string): in pixels or percentage, by default is 100%
+ *  - z-index (numeric): option to control the z-index, by default is 9999
  *
  */
-
 
 (function($) {
 
@@ -19,9 +23,10 @@
 
         var $selector = this;
 
+        // Set default options
         var defaultOptions = {
             position: 'top',
-            animation: 'fade',
+            animation: 'fade', //TODO: Add a few transition effects
             animationDuration: '0.4',
             reverse: false,
             width: '100%',
@@ -30,20 +35,20 @@
 
         var opts = $.extend({}, defaultOptions, options);
 
-        // Hide Header on on scroll down
-        var didScroll;
+        // Hide element on scroll down
+        var isScroll;
         var lastScrollTop = 0;
-        var delta = 5;
-        var navbarHeight = $selector.outerHeight();
+        var index = 5;
+        var elementHeight = $selector.outerHeight();
 
         $(window).scroll(function(event){
-            didScroll = true;
+            isScroll = true;
         });
 
         setInterval(function() {
-            if (didScroll && opts.reverse === true) {
+            if (isScroll && opts.reverse === true) {
                 hasScrolled();
-                didScroll = false;
+                isScroll = false;
             } else {
                 fixedHeader();
             }
@@ -62,17 +67,14 @@
         }
 
         function hasScrolled() {
-            var st = $(this).scrollTop();
+            var scrollTop = $(this).scrollTop();
 
-            // Make sure they scroll more than delta
-            if(Math.abs(lastScrollTop - st) <= delta)
+            // Make sure to scroll more than index
+            if(Math.abs(lastScrollTop - scrollTop) <= index)
                 return;
 
-            // If they scrolled down and are past the navbar, add class .nav-up.
-            // This is necessary so you never see what is "behind" the navbar.
-            if (st > lastScrollTop && st > navbarHeight){
+            if (scrollTop > lastScrollTop && scrollTop > elementHeight){
                 // Scroll Down
-                // $selector.removeClass('nav-down').addClass('nav-up');
                 $selector
                     .css('position', 'fixed')
                     .css(opts.position, '0')
@@ -83,8 +85,7 @@
 
             } else {
                 // Scroll Up
-                if(st + $(window).height() < $(document).height()) {
-                    // $selector.removeClass('nav-up').addClass('nav-down');
+                if(scrollTop + $(window).height() < $(document).height()) {
                     $selector
                         .css(opts.position, '-1000px')
                         .css('transition', opts.position + ' ' + opts.animationDuration + 's ease-in-out')
@@ -94,11 +95,10 @@
                 }
             }
 
-            lastScrollTop = st;
+            lastScrollTop = scrollTop;
         }
 
         return this;
     };
 
 })(jQuery);
-
