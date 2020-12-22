@@ -9,7 +9,6 @@
  *
  * Options:
  *	- position (string): 'top', 'right', 'bottom', 'left'
- *  - animation (string):
  *  - animationDuration (numeric): in seconds - '0.4', '0.8', '1' and etc.
  *  - reverse (boolean): true to hide element on scroll down and show in scroll up, false to fix the element
  *  - width (string): in pixels or percentage, by default is 100%
@@ -26,7 +25,6 @@
         // Set default options
         var defaultOptions = {
             position: 'top',
-            animation: 'fade', //TODO: Add a few transition effects
             animationDuration: '0.4',
             reverse: false,
             width: '100%',
@@ -63,7 +61,6 @@
                 .css(opts.position, '0')
                 .css('width', opts.width)
                 .css('z-index', opts.zIndex)
-
         }
 
         function hasScrolled() {
@@ -99,6 +96,7 @@
         }
 
         return this;
+
     };
 
 })(jQuery);
