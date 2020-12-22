@@ -20,9 +20,15 @@ Download stickify.js from src folder and add the plugin to your project.
 
 Basic usage:
 
+```js
+
 $('.selector').stickify();
 
+```
+
 Select the element you want to be fixed and call stickify method. You can add the following options (default options below): 
+
+```js
 
 $('.selector').stickify({
     position: 'top',
@@ -31,3 +37,5 @@ $('.selector').stickify({
     width: '100%',
     z-index: '9999',
 });
+
+```
